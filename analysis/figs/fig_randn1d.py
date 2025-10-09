@@ -3,6 +3,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import rft1d
+import esrot1d as e1d
 
 
 def scalar2color(x, cmap=plt.cm.jet, xmin=None, xmax=None):
@@ -17,16 +18,21 @@ def scalar2color(x, cmap=plt.cm.jet, xmin=None, xmax=None):
     colors     = cmap(xn)
     return colors
 
+def float2str(x):
+    return r'$\infty$' if np.isinf(x) else f'{x:.1f}'
 
 
 #(0) Generate data:
 seed        = [18]*5 + [0]
 nResponses  = 8
 nNodes      = 101
-W           = [0, 5, 10, 20, 50, np.inf]
+FWHM        = [0, 5, 10, 20, 50, np.inf]
+LKC         = [e1d.smoothness.fwhm2lkc(x, nNodes)  for x in FWHM]
+
+
 colors      = scalar2color(range(nResponses+3), cmap=plt.cm.PuRd)
 Y           = []
-for s,w in zip(seed,W):
+for s,w in zip(seed,FWHM):
     np.random.seed(s)
     Y.append(rft1d.random.randn1d(nResponses, nNodes, w))
 
@@ -47,14 +53,10 @@ plt.setp(axs[:,1:], yticklabels=[])
 [ax.set_xlabel('Domain position  (%)')    for ax in axs[1]]
 # [ax.set_ylabel('Continuum height')    for ax in (ax0,ax3)]
 [ax.set_ylabel('Residual value')  for ax in axs[:,0]]
-# [ax.text(-0.15, 0.5, 'Resi', size=14, transform=ax.transAxes, rotation=90, va='center')  for ax in axs[:,0]]
 ### panel labels:
-for i,(ax,w) in enumerate(zip(axs.ravel(),W)):
-    if np.isinf(w):
-        s   = r'(%s)  FWHM = $\infty$' %chr(97+i)
-    else:
-        s   = r'(%s)  FWHM = %d%%' %(chr(97+i), w)
-    ax.text(0.05, 0.9, s, transform=ax.transAxes)
+for i,(ax,w,lkc) in enumerate(zip(axs.ravel(),FWHM,LKC)):
+    s  = f'({chr(97+i)})  FWHM = {float2str(w)}\n      LKC = {float2str(lkc)}'
+    ax.text(0.05, 0.87, s, transform=ax.transAxes)
 plt.savefig(  os.path.join(  os.path.dirname(__file__) , 'pdf', 'fig-randn1d.pdf'  )  )
 plt.show()
 

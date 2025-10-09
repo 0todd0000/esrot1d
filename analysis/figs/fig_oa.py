@@ -19,7 +19,7 @@ def unique_sorted(x):
 
 # load imported data:
 dirREPO = pathlib.Path( __file__ ).parent.parent.parent
-dir0    = os.path.join(dirREPO, 'Bertaux2022', 'data')
+dir0    = os.path.join(dirREPO, 'analysis', 'Bertaux2022', 'data')
 fpathH5 = os.path.join(dir0, 'means.h5')
 d       = dict()
 with h5py.File(fpathH5, 'r') as f:

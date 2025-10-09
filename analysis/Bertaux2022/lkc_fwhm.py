@@ -1,49 +1,14 @@
 
 '''
-Calculate smoothness metrics:
+Estimate smoothness metrics:
 - Lipschitz-Killing curvature (LKC)
 - Full-width at half-maximum (FWHM)
-
-References:
-
-Barnes GR, Ridgway GR, Flandin G, Woolrich M, Friston K (2013). Set-level threshold-free tests on the intrinsic volumes of SPMs. NeuroImage 68:133-40.
-https://doi.org/10.1016/j.neuroimage.2012.11.046
-
-Taylor JE, Worsley KJ (2007). Detecting sparse signals in random fields, with an application to brain mapping. Journal of the American Statistical Association 102(479):913-28.
-https://doi.org/10.1198/016214507000000815
-
 '''
 
 import os
-from math import log
 import numpy as np
 import esrot1d as e1d
-_4log2 = 4 * log(2)
 
-
-def fwhm2lkc(fwhm, Q):
-    resels = (Q - 1) / fwhm     # use (Q-1) for point-based sampling;  use (Q) for element-based sampling
-    return resels2lkc( resels )
-
-def lkc2resels(lkc, d=1):  # Barnes 2013, Eqn.9 (in text after equation)
-    return _4log2 **(-d/2) * lkc
-
-def lkc2fwhm(lkc, Q):
-    resels = lkc2resels(lkc)
-    return (Q - 1) / resels    # use (Q-1) for point-based sampling;  use (Q) for element-based sampling
-
-def resels2lkc(resels, d=1):
-    return resels / ( _4log2 **(-d/2) )
-    
-
-def estimate_lkc(e):
-    '''
-    Lipschitz–Killing curvature, Taylor & Worsley (2007) Eqns.4-6
-    '''
-    u   = e / (e**2).sum(axis=0)**0.5            # eqn.5
-    d   = np.diff(u, axis=1)
-    lkc = (  (d**2).sum(axis=0)**0.5  ).sum()    # eqn.6
-    return lkc
 
 
 # load imported data:
@@ -70,10 +35,9 @@ r      = y - y.mean(axis=0)
 
 
 
-lkc    = estimate_lkc(r)
-fwhm   = lkc2fwhm( lkc, r.shape[1] )
+lkc    = e1d.smoothness.estimate_lkc(r)
+fwhm   = e1d.smoothness.estimate_fwhm(r)
 print( f'Estimated LKC  = {lkc:.3f}')
 print( f'Estimated FWHM = {fwhm:.3f}')
-
 
 

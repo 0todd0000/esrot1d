@@ -8,11 +8,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import h5py
 import spm1d
+import esrot1d as e1d
+f2s = e1d.util.float2str
 
-
-
-def unique_sorted(x):
-    return np.sort( np.unique(x) )
+# def float2str(x):
+#     return r'$\infty$' if np.isinf(x) else f'{x:.1f}'
+#
+# def unique_sorted(x):
+#     return np.sort( np.unique(x) )
 
 
 
@@ -34,7 +37,7 @@ with h5py.File(fpathH5, 'r') as f:
 # group 2:  OA, month 6 (group=1, sess=1)
 limb   = 1
 y0     = d['y'][  (d['group']==0) & (d['limb']==limb) ]
-oasubj = unique_sorted( d['subj'][(d['affected_limb']==limb) & d['sess']==1] )
+oasubj = e1d.util.unique_sorted( d['subj'][(d['affected_limb']==limb) & d['sess']==1] )
 y1     = np.vstack([d['y'][  (d['subj']==u) & (d['limb']==limb) & (d['sess']==0) ]  for u in oasubj])
 y2     = np.vstack([d['y'][  (d['subj']==u) & (d['limb']==limb) & (d['sess']==1) ]  for u in oasubj])
 
@@ -42,6 +45,10 @@ y2     = np.vstack([d['y'][  (d['subj']==u) & (d['limb']==limb) & (d['sess']==1)
 # calculate residuals:
 y      = y2 - y1
 r      = y - y.mean(axis=0)
+lkc    = e1d.smoothness.estimate_lkc(r)
+fwhm   = e1d.smoothness.estimate_fwhm(r)
+
+
 
 
 
@@ -51,7 +58,8 @@ plt.figure(figsize=(6,4))
 ax = plt.axes()
 ax.plot( r.T, color='b', lw=0.5 )
 ax.axhline(0, color='k', ls='--')
-# ax.legend()
+s  = f'FWHM = {f2s(fwhm)}\nLKC = {f2s(lkc)}'
+ax.text(0.05, 0.87, s, transform=ax.transAxes, bbox=dict(color='0.9', alpha=0.8))
 ax.set_xlabel('Time (%)', size=12)
 ax.set_ylabel('Residual (deg)', size=12)
 plt.tight_layout()
