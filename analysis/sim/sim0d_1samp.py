@@ -1,5 +1,4 @@
 
-from math import sqrt
 import numpy as np
 from scipy import stats
 from matplotlib import pyplot as plt
