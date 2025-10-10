@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import rft1d
 import esrot1d as e1d
-d2p = e1d.stats.d2p_onesample_1d
+d2p = e1d.stats.d2p_1sample_1d
 
 
 

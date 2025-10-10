@@ -15,10 +15,10 @@ interps  = [['Very small',0.01], ['Small',0.2], ['Medium',0.5], ['Large',0.8], [
 labels,d = zip(*interps)
 # one-sample n-p relation:
 n1       = np.arange(2,80)
-p1       = np.array([[e1d.stats.d2p_onesample_0d(dd, nn) for dd in d]  for nn in n1]) 
+p1       = np.array([[e1d.stats.d2p_1sample_0d(dd, nn) for dd in d]  for nn in n1]) 
 # two-sample n-p relation:
 n2       = np.arange(4,80,2)
-p2       = np.array([[e1d.stats.d2p_twosample_0d(dd, nn) for dd in d]  for nn in n2]) 
+p2       = np.array([[e1d.stats.d2p_2sample_0d(dd, nn) for dd in d]  for nn in n2]) 
 
 
 

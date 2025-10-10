@@ -4,7 +4,7 @@ from scipy import stats
 from matplotlib import pyplot as plt
 import rft1d
 import esrot1d as e1d
-d2p = e1d.stats.d2p_twosample_1d
+d2p = e1d.stats.d2p_2sample_1d
 
 
 

@@ -15,7 +15,7 @@ where:
 
 For example, the function:
 
-    d2p_onesample_0d
+    d2p_1sample_0d
 
 converts d-values to p-values for the one-sample, simple scalar
 (i.e., 0D) case
@@ -36,11 +36,11 @@ def d_1sample(y, mu=0):
     return d
 
 
-def d2t_onesample(d, n):
+def d2t_1sample(d, n):
     return d / (1/n)**0.5
 
 
-def d2p_onesample_0d(d, n):
+def d2p_1sample_0d(d, n):
     '''
     Calculate probabilty associated with Cohen's d value for the
     one-sample (or paired) case with a sample sizes of n
@@ -48,30 +48,30 @@ def d2p_onesample_0d(d, n):
     from collections.abc import Iterable
     from scipy import stats
     if isinstance(d, Iterable):
-        return np.array( [d2p_onesample_0d(dd, n)  for dd in d] )
-    t = d2t_onesample(d, n)
+        return np.array( [d2p_1sample_0d(dd, n)  for dd in d] )
+    t = d2t_1sample(d, n)
     v = n - 1
     p = stats.t.sf(t, v)
     return p
     
 
-def d2p_onesample_1d(d, n, Q, fwhm):
+def d2p_1sample_1d(d, n, Q, fwhm):
     import rft1d
     v  = n - 1
-    u  = d2t_onesample(d, n)
+    u  = d2t_1sample(d, n)
     p  = rft1d.t.sf(u, v, Q, fwhm)
     return p
 
 
-def p2d_onesample_1d(p, n, Q, fwhm):
+def p2d_1sample_1d(p, n, Q, fwhm):
     import rft1d
     v  = n - 1
     t  = rft1d.t.isf(p, v, Q, fwhm)
-    d  = t2d_onesample(t, n)
+    d  = t2d_1sample(t, n)
     return d
 
 
-def t2d_onesample(t, n):
+def t2d_1sample(t, n):
     return t * (1/n)**0.5
 
 
@@ -86,7 +86,7 @@ def d_2sample(y0, y1):
     return (m0 - m1) / sp
     
 
-def d2p_twosample_0d(d, n):
+def d2p_2sample_0d(d, n):
     '''
     Calculate probabilty associated with Cohen's d value for the
     one-sample (or paired) case with a sample size of n
@@ -94,30 +94,30 @@ def d2p_twosample_0d(d, n):
     from collections.abc import Iterable
     from scipy import stats
     if isinstance(d, Iterable):
-        return np.array( [d2p_twosample_0d(dd, n)  for dd in d] )
-    t = d2t_twosample(d, n)
+        return np.array( [d2p_2sample_0d(dd, n)  for dd in d] )
+    t = d2t_2sample(d, n)
     v = n - 2
     p = stats.t.sf(t, v)
     return p
     
 
-def d2p_twosample_1d(d, n, Q, fwhm):
+def d2p_2sample_1d(d, n, Q, fwhm):
     import rft1d
     v  = n - 2
-    u  = d2t_twosample(d, n)
+    u  = d2t_2sample(d, n)
     p  = rft1d.t.sf(u, v, Q, fwhm)
     return p
 
-def d2t_twosample(d, n):
+def d2t_2sample(d, n):
     return d / (1/(n/2) + 1/(n/2))**0.5
 
 def p2d_twosample_1d(p, n, Q, fwhm):
     import rft1d
     v  = n - 2
     t  = rft1d.t.isf(p, v, Q, fwhm)
-    d  = t2d_twosample(t, n)
+    d  = t2d_2sample(t, n)
     return d
 
-def t2d_twosample(t, n):
+def t2d_2sample(t, n):
     return t * (1/(n/2) + 1/(n/2))**0.5
 

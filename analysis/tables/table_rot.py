@@ -4,7 +4,7 @@ import numpy as np
 from scipy import stats
 from matplotlib import pyplot as plt
 import esrot1d as e1d
-d2p = e1d.stats.d2p_onesample_0d
+d2p = e1d.stats.d2p_1sample_0d
 
 
 # calculate probabilities for effect sizes:

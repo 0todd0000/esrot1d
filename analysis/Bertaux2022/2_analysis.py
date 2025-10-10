@@ -37,17 +37,17 @@ fwhm   = spm.fwhm
 y     = y2 - y1     # pairwise differences
 n,Q   = y.shape     # sample size, domain size
 d     = y.mean(axis=0) / y.std(ddof=1, axis=0)  # functional Cohen's d value
-t     = e1d.stats.d2t_onesample(d, n)  # functional t-value (also calculated above using spm1d.stats.ttest_paired;  this is just a check)
-p0    = e1d.stats.d2p_onesample_0d(-d, n)
-p1    = e1d.stats.d2p_onesample_1d(-d, n, Q, fwhm)
+t     = e1d.stats.d2t_1sample(d, n)  # functional t-value (also calculated above using spm1d.stats.ttest_paired;  this is just a check)
+p0    = e1d.stats.d2p_1sample_0d(-d, n)
+p1    = e1d.stats.d2p_1sample_1d(-d, n, Q, fwhm)
 
 
 # calculate interpretations:
 labels = ('Very small', 'Small', 'Medium', 'Large', 'Very large', 'Huge')
 dth0   = (0.01, 0.2, 0.5, 0.8, 1.2, 2.0)  # d-value thresholds for 0D case
 nn,ww  = 10, 25   # approximations from recommended guidelines;  see paper for a discussion
-pth    = e1d.stats.d2p_onesample_0d( dth0, nn )
-dth1   = e1d.stats.p2d_onesample_1d( pth, nn, Q, ww )
+pth    = e1d.stats.d2p_1sample_0d( dth0, nn )
+dth1   = e1d.stats.p2d_1sample_1d( pth, nn, Q, ww )
 
 print( fwhm )
 print( d.min() )
