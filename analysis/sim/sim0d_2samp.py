@@ -59,7 +59,7 @@ for i,c in enumerate(colors):
     ax.plot(u1, np.log(sf1[i]), 'o', color=c )
 ax.set_ylim(-10, 0)
 ax.set_xlabel('u', size=14)
-ax.set_ylabel('P(d>u)', size=14)
+ax.set_ylabel('log( P(d>u) )', size=14)
 e1d.util.custom_legend(ax, colors=colors+['k','k'], labels=[f'n={nn}' for nn in n]+['Analytical','Simulation'], linestyles=['-','-','-','-','o'], linewidths=[2,2,2,2,None], markersizes=[None,None,None,5,5])
 plt.tight_layout()
 plt.show()
