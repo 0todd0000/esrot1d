@@ -3,25 +3,16 @@ import numpy as np
 from scipy import stats
 from matplotlib import pyplot as plt
 import esrot1d as e1d
+d2p = e1d.stats.d2p_onesample_0d
 
 
-
-def d_1samp(y, mu=0):
-    d  = ( y.mean() - mu ) / y.std(ddof=1)
-    return d
-
-def p_1samp(d, n):
-    t = d / (1/n)**0.5
-    v = n - 1
-    p = stats.t.sf(t, v)
-    return p
 
 
 
 # calculate theoretical probabilities for effect sizes:
 n      = [5, 10, 20]
 u0     = np.linspace(0, 2, 51)
-sf0    = np.array([[p_1samp(uu,nn) for uu in u0]  for nn in n])
+sf0    = np.array([[d2p(uu,nn) for uu in u0]  for nn in n])
 
 
 
@@ -34,7 +25,7 @@ for nn in n:
     d  = []
     for i in range(niter):
         y  = np.random.randn(nn)
-        d.append( d_1samp(y) )
+        d.append( e1d.stats.d_1sample(y) )
     d  = np.asarray( d )
     f  = np.array(   [(d>uu).mean()  for uu in u1]   )
     f[f==0] = np.nan
