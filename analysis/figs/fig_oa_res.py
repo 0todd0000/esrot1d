@@ -63,8 +63,8 @@ ax.text(0.05, 0.87, s, transform=ax.transAxes, bbox=dict(color='0.9', alpha=0.8)
 ax.set_xlabel('Time (%)', size=12)
 ax.set_ylabel('Residual (deg)', size=12)
 plt.tight_layout()
-fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_oa_res.pdf' )
-plt.savefig(fpath)
+# fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_oa_res.pdf' )
+# plt.savefig(fpath)
 plt.show()
 
 

@@ -2,20 +2,13 @@
 import os
 import numpy as np
 from matplotlib import pyplot as plt
-import rft1d
 import esrot1d as e1d
 
 
-def get_numerical_sf(d, u):
-    d  = np.asarray( d )
-    sf = np.array(   [(d>uu).mean()  for uu in u]   )
-    sf[sf==0] = np.nan
-    return sf
 
-
-
+# set parameters:
 np.random.seed(0)
-niter  = 10000
+niter  = 100
 Q      = 101
 fwhm   = 20
 fwhms  = [5, 20, 50]
@@ -27,91 +20,27 @@ u      = np.arange(0, 2.1, 0.2)
 u0     = np.linspace(0, 2, 51)
 
 
-# one-sample 0d
-sf10   = []
-for n in ns1:
-    d  = []
-    for i in range(niter):
-        y  = np.random.randn(n)
-        d.append( e1d.stats.d_1sample(y) )
-    sf10.append( get_numerical_sf(d, u) )
-sf10    = np.array( sf10 )
-sf10_an = np.array([[e1d.stats.d2p_1sample_0d(uu,nn) for uu in u0]  for nn in ns1])
+
+
+# load sim results:
+fpath     = os.path.join( os.path.dirname(__file__), 'results_sim.h5' )
+d         = e1d.io.load_h5( fpath )
+sf10      = d['sf10']
+sf11w     = d['sf11w']
+sf11n     = d['sf11n']
+sf20      = d['sf20']
+sf21w     = d['sf21w']
+sf21n     = d['sf21n']
+sf10_an   = d['sf10_an']
+sf11n_an  = d['sf11n_an']
+sf11w_an  = d['sf11w_an']
+sf20_an   = d['sf20_an']
+sf21n_an  = d['sf21n_an']
+sf21w_an  = d['sf21w_an']
 
 
 
-# one-sample 1d (constant FWHM)
-sf11n = []
-for n in ns1:
-    d  = []
-    for i in range(niter):
-        y  = rft1d.randn1d(n, Q, fwhm)
-        d.append( e1d.stats.d_1sample(y).max() )
-    sf11n.append( get_numerical_sf(d, u) )
-sf11n    = np.array( sf11n )
-sf11n_an = np.array([[e1d.stats.d2p_1sample_1d(uu,nn,Q,fwhm) for uu in u0]  for nn in ns1])
-
-
-# one-sample 1d (constant n)
-sf11w = []
-for w in fwhms:
-    d  = []
-    for i in range(niter):
-        y  = rft1d.randn1d(N1, Q, w)
-        d.append( e1d.stats.d_1sample(y).max() )
-    sf11w.append( get_numerical_sf(d, u) )
-sf11w    = np.array( sf11w )
-sf11w_an = np.array([[e1d.stats.d2p_1sample_1d(uu,N1,Q,w) for uu in u0]  for w in fwhms])
-
-
-
-
-# two-sample 0d
-sf20   = []
-for n in ns2:
-    d  = []
-    for i in range(niter):
-        y0  = np.random.randn(n)
-        y1  = np.random.randn(n)
-        d.append( e1d.stats.d_2sample(y0, y1) )
-    sf20.append( get_numerical_sf(d, u) )
-sf20    = np.array( sf20 )
-sf20_an = np.array([[e1d.stats.d2p_2sample_0d(uu,nn*2) for uu in u0]  for nn in ns2])
-
-
-# two-sample 1d  (constant FWHM)
-sf21n  = []
-for n in ns2:
-    d  = []
-    for i in range(niter):
-        y0  = rft1d.randn1d(n, Q, fwhm)
-        y1  = rft1d.randn1d(n, Q, fwhm)
-        d.append( e1d.stats.d_2sample(y0, y1).max() )
-    sf21n.append( get_numerical_sf(d, u) )
-sf21n    = np.array( sf21n )
-sf21n_an = np.array([[e1d.stats.d2p_2sample_1d(uu,nn*2,Q,fwhm) for uu in u0]  for nn in ns2])
-
-
-# two-sample 1d  (constant n)
-sf21w  = []
-for w in fwhms:
-    d  = []
-    for i in range(niter):
-        y0  = rft1d.randn1d(N2, Q, w)
-        y1  = rft1d.randn1d(N2, Q, w)
-        d.append( e1d.stats.d_2sample(y0, y1).max() )
-    sf21w.append( get_numerical_sf(d, u) )
-sf21w    = np.array( sf21w )
-sf21w_an = np.array([[e1d.stats.d2p_2sample_1d(uu,N2*2,Q,w) for uu in u0]  for w in fwhms])
-
-
-
-# # save:
-# fpath = os.path.join( os.path.dirname(__file__), 'results.h5' )
-# d     = dict(sf10, sf11f, sf11n)
-
-
-
+# plot:
 plt.close('all')
 fig,axs = plt.subplots( 3, 2, figsize=(8,8), tight_layout=True )
 colors  = ['r', 'g', 'b']
@@ -149,8 +78,8 @@ e1d.util.custom_legend(axs[2,1], colors=colors, labels=[f'FWHM={w}' for w in fwh
 [ax.text(0.02, 1.02, f'({chr(97+i)})', transform=ax.transAxes) for i,ax in enumerate(axs.ravel())]
 
 
-fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_sim.pdf' )
-plt.savefig(fpath)
+# fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_sim.pdf' )
+# plt.savefig(fpath)
 
 plt.show()
 
