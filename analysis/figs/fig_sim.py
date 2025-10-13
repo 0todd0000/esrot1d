@@ -60,7 +60,7 @@ for ax,sf_an,sf in zip(axs.ravel(), sf_ans, sfs):
 plt.setp(axs, ylim=(-8, 0.2))
 
 
-[ax.set_xlabel('u', size=14) for ax in axs[2]]
+[ax.set_xlabel('d', size=14) for ax in axs[2]]
 # [ax.set_ylabel(f'[{pref}]  log( P(d{suff}>u) )', size=14) for ax,pref,suff in zip(axs[:,0],['0D', '1D', '1D'],['','_max','_max'])]
 [ax.set_ylabel(f'[{pref}]   log(p)', size=14) for ax,pref in zip(axs[:,0],['0D', '1D', '1D'])]
 e1d.util.custom_legend(axs[0,0], colors=colors+['k','k'], labels=[f'n={nn}' for nn in ns1]+['Analytical','Simulation'], linestyles=['-','-','-','-','o'], linewidths=[2,2,2,2,None], markersizes=[None,None,None,5,5])
