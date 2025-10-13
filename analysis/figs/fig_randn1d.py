@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import rft1d
 import esrot1d as e1d
+e1d.set_plot_style()
 
 
 def scalar2color(x, cmap=plt.cm.jet, xmin=None, xmax=None):
@@ -57,6 +58,7 @@ plt.setp(axs[:,1:], yticklabels=[])
 for i,(ax,w,lkc) in enumerate(zip(axs.ravel(),FWHM,LKC)):
     s  = f'({chr(97+i)})  FWHM = {float2str(w)}\n      LKC = {float2str(lkc)}'
     ax.text(0.05, 0.87, s, transform=ax.transAxes)
+[ax.grid(None) for ax in axs.ravel()]
 plt.savefig(  os.path.join(  os.path.dirname(__file__) , 'pdf', 'fig-randn1d.pdf'  )  )
 plt.show()
 

@@ -5,13 +5,7 @@ from matplotlib import pyplot as plt
 import rft1d
 import h5py
 import esrot1d as e1d
-
-plt.style.use('bmh')
-plt.rcParams['lines.linewidth'] = 2
-plt.rcParams['xtick.labelsize'] = 'small'
-plt.rcParams['ytick.labelsize'] = 'small'
-plt.rcParams['font.sans-serif'] = 'Arial'
-plt.rcParams['font.family']     = 'Arial'
+e1d.set_plot_style()
 
 
 

@@ -7,6 +7,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import esrot1d as e1d
+e1d.set_plot_style()
 
 
 
@@ -43,7 +44,7 @@ for vl,ddx,ddy in zip(vlines, dx, dy):
     ax.plot([vl,vl], [-15,np.log(0.05)], color='r', ls=':', zorder=0)
     ax.text(vl+ddx, -11+ddy, fr'$n$ = {vl}', rotation=-90, ha=ha, va='top', color='r')
 ax.axhline( np.log(0.05), color='r', ls='--', label=r'$\alpha$=0.05', zorder=0)
-ax.legend( bbox_to_anchor=(0.5,0.78) )
+ax.legend( bbox_to_anchor=(0.5,0.78), facecolor='w' )
 
 
 
@@ -70,7 +71,7 @@ axs[0].set_ylabel('log( p-value )', size=12)
 
 panel_labels = '(a) One-sample', '(b) Two-sample'
 [ax.text(0.02, 1.02, s, size=12, transform=ax.transAxes)  for ax,s in zip(axs,panel_labels)]
-
+[ax.grid(None) for ax in axs]
 
 
 fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_dp.pdf' )

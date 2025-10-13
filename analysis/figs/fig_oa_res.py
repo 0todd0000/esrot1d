@@ -10,12 +10,7 @@ import h5py
 import spm1d
 import esrot1d as e1d
 f2s = e1d.util.float2str
-
-# def float2str(x):
-#     return r'$\infty$' if np.isinf(x) else f'{x:.1f}'
-#
-# def unique_sorted(x):
-#     return np.sort( np.unique(x) )
+e1d.set_plot_style()
 
 
 
@@ -59,12 +54,12 @@ ax = plt.axes()
 ax.plot( r.T, color='b', lw=0.5 )
 ax.axhline(0, color='k', ls='--')
 s  = f'FWHM = {f2s(fwhm)}\nLKC = {f2s(lkc)}'
-ax.text(0.05, 0.87, s, transform=ax.transAxes, bbox=dict(color='0.9', alpha=0.8))
+ax.text(0.35, 0.90, s, transform=ax.transAxes, bbox=dict(color='w', alpha=0.8))
 ax.set_xlabel('Time (%)', size=12)
 ax.set_ylabel('Residual (deg)', size=12)
 plt.tight_layout()
-# fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_oa_res.pdf' )
-# plt.savefig(fpath)
+fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_oa_res.pdf' )
+plt.savefig(fpath)
 plt.show()
 
 

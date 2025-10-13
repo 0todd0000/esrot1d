@@ -3,6 +3,7 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 import esrot1d as e1d
+e1d.set_plot_style()
 
 
 
@@ -78,8 +79,8 @@ e1d.util.custom_legend(axs[2,1], colors=colors, labels=[f'FWHM={w}' for w in fwh
 [ax.text(0.02, 1.02, f'({chr(97+i)})', transform=ax.transAxes) for i,ax in enumerate(axs.ravel())]
 
 
-# fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_sim.pdf' )
-# plt.savefig(fpath)
+fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_sim.pdf' )
+plt.savefig(fpath)
 
 plt.show()
 
