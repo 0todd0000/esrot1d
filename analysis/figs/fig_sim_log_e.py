@@ -51,23 +51,19 @@ sf_ans  = [sf10_an, sf20_an, sf11n_an, sf21n_an, sf11w_an, sf21w_an]
 sfs     = [sf10, sf20, sf11n, sf21n, sf11w, sf21w]
 for ax,sf_an,sf in zip(axs.ravel(), sf_ans, sfs):
     for i,c in enumerate(colors):
-        ax.plot(u0, np.log10(sf_an[i]), color=c)
-        ax.plot(u, np.log10(sf[i]), 'o', color=c )
-    ax.axhline( np.log10(0.05), color='k', ls='--')
-axs[0,0].text(0.44, 0.72, r'$\alpha$=0.05', zorder=0, transform=axs[0,0].transAxes)
-# axs[0,0].legend( [h], [r'$\alpha$=0.05'], bbox_to_anchor=(0.1,0.1), facecolor='w' )
+        ax.plot(u0, np.log(sf_an[i]), color=c)
+        ax.plot(u, np.log(sf[i]), 'o', color=c )
 
 
 [ax.set_xticklabels([])  for ax in axs[:2,:2].ravel()]
 [ax.set_yticklabels([])  for ax in axs[:,1]]
-plt.setp(axs, ylim=(-4.5, 0.2))
+plt.setp(axs, ylim=(-8, 0.2))
 
 
 [ax.set_xlabel('d', size=14) for ax in axs[2]]
 # [ax.set_ylabel(f'[{pref}]  log( P(d{suff}>u) )', size=14) for ax,pref,suff in zip(axs[:,0],['0D', '1D', '1D'],['','_max','_max'])]
-log10 = r'log$_{10}$'
-[ax.set_ylabel(f'[{pref}]   {log10}(p)', size=14) for ax,pref in zip(axs[:,0],['0D', '1D', '1D'])]
-e1d.util.custom_legend(axs[0,0], colors=colors+['k','k'], labels=[f'n={nn}' for nn in ns1]+['Analytical','Simulation'], linestyles=['-','-','-','-','o'], linewidths=[2,2,2,2,None], markersizes=[None,None,None,5,5], framealpha=0.95, fancybox=True)
+[ax.set_ylabel(f'[{pref}]   log(p)', size=14) for ax,pref in zip(axs[:,0],['0D', '1D', '1D'])]
+e1d.util.custom_legend(axs[0,0], colors=colors+['k','k'], labels=[f'n={nn}' for nn in ns1]+['Analytical','Simulation'], linestyles=['-','-','-','-','o'], linewidths=[2,2,2,2,None], markersizes=[None,None,None,5,5])
 e1d.util.custom_legend(axs[1,0], colors=colors, labels=[f'n={nn}' for nn in ns1], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
 e1d.util.custom_legend(axs[2,0], colors=colors, labels=[f'FWHM={w}' for w in fwhms], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
 
