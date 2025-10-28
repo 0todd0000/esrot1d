@@ -43,7 +43,14 @@ sf21w_an  = d['sf21w_an']
 
 # plot:
 plt.close('all')
-fig,axs = plt.subplots( 3, 2, figsize=(8,8), tight_layout=True )
+# fig,axs = plt.subplots( 3, 2, figsize=(8,8), tight_layout=True )
+
+fig     = plt.figure( figsize=(8,8) )
+axw,axh = 0.45, 0.28
+axx,axy = [0.07, 0.54], np.linspace(0.69, 0.05, 3)
+axs     = np.array(  [[plt.axes([xx,yy,axw,axh])  for xx in axx]  for yy in axy]  )
+
+
 colors  = ['r', 'g', 'b']
 
 
@@ -67,16 +74,23 @@ plt.setp(axs, ylim=(-4.5, 0.2))
 # [ax.set_ylabel(f'[{pref}]  log( P(d{suff}>u) )', size=14) for ax,pref,suff in zip(axs[:,0],['0D', '1D', '1D'],['','_max','_max'])]
 log10 = r'log$_{10}$'
 [ax.set_ylabel(f'[{pref}]   {log10}(p)', size=14) for ax,pref in zip(axs[:,0],['0D', '1D', '1D'])]
-e1d.util.custom_legend(axs[0,0], colors=colors+['k','k'], labels=[f'n={nn}' for nn in ns1]+['Analytical','Simulation'], linestyles=['-','-','-','-','o'], linewidths=[2,2,2,2,None], markersizes=[None,None,None,5,5], framealpha=0.95, fancybox=True)
+# e1d.util.custom_legend(axs[0,0], colors=colors+['k','k'], labels=[f'n={nn}' for nn in ns1]+['Analytical','Simulation'], linestyles=['-','-','-','-','o'], linewidths=[2,2,2,2,None], markersizes=[None,None,None,5,5], framealpha=0.95, fancybox=True)
+leg0 = e1d.util.custom_legend(axs[0,0], colors=colors, labels=[f'n={nn}' for nn in ns1], linestyles=['-','-','-'], linewidths=[2,2,2], markersizes=[None,None,None], framealpha=0.95, fancybox=True)
+leg1 = e1d.util.custom_legend(axs[0,1], colors=['k','k'], labels=['Analytical','Simulation'], linestyles=['-','o'], linewidths=[2,None], markersizes=[None,5], framealpha=0.95, fancybox=True, bbox_to_anchor=(0.15,0.5), facecolor='w')
+
+
+
 e1d.util.custom_legend(axs[1,0], colors=colors, labels=[f'n={nn}' for nn in ns1], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
 e1d.util.custom_legend(axs[2,0], colors=colors, labels=[f'FWHM={w}' for w in fwhms], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
 
-e1d.util.custom_legend(axs[0,1], colors=colors, labels=[f'n={nn*2}' for nn in ns2], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
-e1d.util.custom_legend(axs[1,1], colors=colors, labels=[f'n={nn*2}' for nn in ns2], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
+leg01 = e1d.util.custom_legend(axs[0,1], colors=colors, labels=[f'N={nn*2}' for nn in ns2], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
+e1d.util.custom_legend(axs[1,1], colors=colors, labels=[f'N={nn*2}' for nn in ns2], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
 e1d.util.custom_legend(axs[2,1], colors=colors, labels=[f'FWHM={w}' for w in fwhms], linestyles=['-']*3, linewidths=[2]*3, markersizes=[None]*3)
 
+axs[0,1].add_artist(leg1)
+
 [ax.text(0.12, 1.02, f'FWHM = {fwhm}', transform=ax.transAxes)  for ax in axs[1]]
-[ax.text(0.12, 1.02, f'n = {nn}', transform=ax.transAxes)  for ax,nn in zip(axs[2],[N1,2*N2])]
+[ax.text(0.12, 1.02, f'{nlabel} = {nn}', transform=ax.transAxes)  for ax,nlabel,nn in zip(axs[2],['n','N'],[N1,2*N2])]
 
 [ax.set_title(s)  for ax,s in zip(axs[0],['One-sample', 'Two-sample'])]
 

@@ -59,7 +59,7 @@ vlines = [6, 10, 20, 46]
 dy     = [0, 0, 1.5, 1.5, 0]
 for ddy,vl in zip(dy,vlines):
     ax.plot([vl,vl], [-15,np.log10(0.05)], color='r', ls=':', zorder=0)
-    ax.text(vl, -4+ddy, fr'$n$ = {vl}', rotation=-90, ha='left', va='top', color='r')
+    ax.text(vl, -4+ddy, fr'$N$ = {vl}', rotation=-90, ha='left', va='top', color='r')
 ax.axhline( np.log10(0.05), color='r', ls='--', label=r'$\alpha$=0.05', zorder=0)
 ax.set_yticklabels([])
 
@@ -67,7 +67,7 @@ ax.set_yticklabels([])
 
 [ax.set_xlim( 0, 82 )  for ax in axs]
 [ax.set_ylim( -5, 0.5 )  for ax in axs]
-[ax.set_xlabel(f'Sample size ($n$)', size=12)  for ax in axs]
+[ax.set_xlabel(f'Sample size (${nn}$)', size=12)  for ax,nn in zip(axs,['n','N'])]
 axs[0].set_ylabel(r'log$_{10}$ ( p-value )', size=12)
 
 panel_labels = '(a) One-sample', '(b) Two-sample'
