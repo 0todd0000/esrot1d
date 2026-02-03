@@ -1,4 +1,5 @@
 
+from . baseline import BaselineScenario
 from . import io
 from . import smoothness
 from . import stats

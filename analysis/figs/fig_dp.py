@@ -75,8 +75,8 @@ panel_labels = '(a) One-sample', '(b) Two-sample'
 [ax.grid(None) for ax in axs]
 
 
-fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_dp.pdf' )
-plt.savefig(fpath)
+# fpath = os.path.join( os.path.dirname(__file__), 'pdf', 'fig_dp.pdf' )
+# plt.savefig(fpath)
 plt.show()
 
 
