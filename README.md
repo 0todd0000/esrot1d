@@ -12,16 +12,17 @@ Pataky TC, Pini A, Preatoni E, Schelin L (2026) Effect size rules of thumb for o
 <br>
 <br>
 
-⚠️  The attached code is NOT on a managed Python package index like PyPI because this code is not comprehensive, and is instead meant primarily to reproduce the results of the paper above. In particular, only simple one-sample and two-sample designs are currently supported. A more comprehensive package may emerge in the future but may be housed in a separate repository.
+⚠️  The attached **esrot1d** code is NOT on a managed Python package index like PyPI because this code is not comprehensive, and is instead meant primarily to reproduce the results of the paper above. In particular, only simple one-sample and two-sample designs are currently supported. A more comprehensive package --- supporting other effect sizes and other experiment designs --- may emerge in the future but may be housed in a separate repository.
 
 <br>
 <br>
 
-**Documentation**
+### Documentation
 
-- Installation
-- Example usage
-- **esrot1d** package overview
-- Reproducing results from the paper
-- Appendix A:  Consideration of sample size and smoothness effects
+- [Installation](doc/install.md)
+- [Example usage](doc/example_usage.ipynb)
+- [Repository overview](doc/overview.md)
+- [**esrot1d** package overview](doc/esrot1d.md)
+- [Reproducing results from the paper](doc/reproduce_results.ipynb)
+- [Appendix A](doc/AppendixA.ipynb):  Consideration of sample size and smoothness effects
 
