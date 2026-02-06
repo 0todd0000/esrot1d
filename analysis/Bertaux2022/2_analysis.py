@@ -37,17 +37,22 @@ fwhm   = spm.fwhm
 y     = y2 - y1     # pairwise differences
 n,Q   = y.shape     # sample size, domain size
 d     = y.mean(axis=0) / y.std(ddof=1, axis=0)  # functional Cohen's d value
-t     = e1d.stats.d2t_1sample(d, n)  # functional t-value (also calculated above using spm1d.stats.ttest_paired;  this is just a check)
-p0    = e1d.stats.d2p_1sample_0d(-d, n)
-p1    = e1d.stats.d2p_1sample_1d(-d, n, Q, fwhm)
+# t     = e1d.stats.d2t_1sample(d, n)  # functional t-value (also calculated above using spm1d.stats.ttest_paired;  this is just a check)
+t     = e1d.stats.d2t(d, n, design='1sample')  # functional t-value (also calculated above using spm1d.stats.ttest_paired;  this is just a check)
+# p0    = e1d.stats.d2p_1sample_0d(-d, n)
+# p1    = e1d.stats.d2p_1sample_1d(-d, n, Q, fwhm)
+p0    = e1d.stats.d2p(-d, n, dim=0, design='1sample')
+p1    = e1d.stats.d2p(-d, n, dim=0, design='1sample', Q=Q, fwhm=fwhm)
 
 
 # calculate interpretations:
 labels = ('Very small', 'Small', 'Medium', 'Large', 'Very large', 'Huge')
 dth0   = (0.01, 0.2, 0.5, 0.8, 1.2, 2.0)  # d-value thresholds for 0D case
 nn,ww  = 10, 25   # approximations from recommended guidelines;  see paper for a discussion
-pth    = e1d.stats.d2p_1sample_0d( dth0, nn )
-dth1   = e1d.stats.p2d_1sample_1d( pth, nn, Q, ww )
+# pth    = e1d.stats.d2p_1sample_0d( dth0, nn )
+# dth1   = e1d.stats.p2d_1sample_1d( pth, nn, Q, ww )
+pth    = e1d.stats.d2p( dth0, nn, dim=0, design='1sample' )
+dth1   = e1d.stats.p2d( pth, nn, dim=1, design='1sample', Q=Q, fwhm=ww )
 
 print( fwhm )
 print( d.min() )
