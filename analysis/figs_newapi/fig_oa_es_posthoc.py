@@ -12,6 +12,12 @@ e1d.set_plot_style()
 interpretations  = [['Very small',0.01], ['Small',0.2], ['Medium',0.5], ['Large',0.8], ['Very large',1.2], ['Huge',2.0]]
 interpretations1 = [['Very small',0.13], ['Small',0.55], ['Medium',1.14], ['Large',1.75], ['Very large',2.59], ['Huge',4.13]]
 
+dc = e1d.stats.d_critical(20, dim=1, design='1sample', Q=101, fwhm=21.9)
+# dc = e1d.stats.d_critical(20, dim=1, design='1sample', Q=101, fwhm=73.3)
+dc = e1d.stats.d_critical(52, dim=1, design='2sample', Q=101, fwhm=73.3)
+
+interpretations1 = list( zip( dc.keys(), dc.values() ) )
+
 
 
 def plot_interpretations(ax, type='0d', ylim=(-1,1)):

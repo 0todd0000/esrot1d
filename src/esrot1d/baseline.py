@@ -49,6 +49,7 @@ class BaselineScenario(object):
     @property
     def critical_values(self):
         return CriticalValues( self.dc, self.pc )
+        
     
 
 
@@ -71,7 +72,9 @@ class CriticalValues(dict):
         
     def toarray(self):
         return np.asarray(list(self.values()), dtype=float)
-
+        
+    def tolist(self):
+        return list( zip( self.keys(), self.values() ) )
 
 
 
