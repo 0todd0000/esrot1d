@@ -4,3 +4,4 @@ ipython
 h5py
 rft1d
 spm1d
+pytest

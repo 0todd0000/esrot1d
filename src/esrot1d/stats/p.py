@@ -8,7 +8,7 @@ calculate t-values;  v is assumed to be n-2 for the two-sample case
 '''
 
 
-
+from .. dec import _assert_design, _check_n_2sample, _nd_vectorize
 
 
 
@@ -17,15 +17,17 @@ calculate t-values;  v is assumed to be n-2 for the two-sample case
 # ---- p2t conversions ----------
 # convert p-values to t-values
 
+@_nd_vectorize
 def _p2t_0d(p, v):
     from scipy import stats
     return stats.t.isf(p, v)
 
+@_nd_vectorize
 def _p2t_1d(p, v, Q, fwhm):
     import rft1d
     return rft1d.t.isf(p, v, Q, fwhm)
 
-
+@_nd_vectorize
 def p2t(p, v, dim=0, Q=None, fwhm=None):
     if dim==0:
         return _p2t_0d(p, v)
@@ -45,7 +47,7 @@ def _t2p_1d(t, v, Q, fwhm):
     import rft1d
     return rft1d.t.sf(t, v, Q, fwhm)
 
-
+@_nd_vectorize
 def t2p(t, v, dim=0, Q=None, fwhm=None):
     if dim==0:
         return _t2p_0d(t, v)
@@ -59,15 +61,23 @@ def t2p(t, v, dim=0, Q=None, fwhm=None):
 # convert d-values to p-values
 
 
+
 def _d2p_1sample_0d(d, n):
-    from collections.abc import Iterable
     from . d import d2t
-    if isinstance(d, Iterable):
-        import numpy as np
-        return np.array( [_d2p_1sample_0d(dd, n)  for dd in d] )
     t = d2t(d, n, design='1sample')
     p = t2p(t, n-1, dim=0)
     return p
+
+# def _d2p_1sample_0d(d, n):
+#     from collections.abc import Iterable
+#     from . d import d2t
+#     if isinstance(d, Iterable):
+#         import numpy as np
+#         return np.array( [_d2p_1sample_0d(dd, n)  for dd in d] )
+#     t = d2t(d, n, design='1sample')
+#     p = t2p(t, n-1, dim=0)
+#     return p
+
 
 
 def _d2p_1sample_1d(d, n, Q, fwhm):
@@ -77,16 +87,24 @@ def _d2p_1sample_1d(d, n, Q, fwhm):
     return p
 
 
+
 def _d2p_2sample_0d(d, n):
     from . d import d2t
-    from collections.abc import Iterable
-    if isinstance(d, Iterable):
-        import numpy as np
-        return np.array( [_d2p_2sample_0d(dd, n)  for dd in d] )
     t = d2t(d, n, design='2sample')
     p = t2p(t, n-2)
-    # p = stats.t.sf(t, n-2)
     return p
+
+
+# def _d2p_2sample_0d(d, n):
+#     from . d import d2t
+#     from collections.abc import Iterable
+#     if isinstance(d, Iterable):
+#         import numpy as np
+#         return np.array( [_d2p_2sample_0d(dd, n)  for dd in d] )
+#     t = d2t(d, n, design='2sample')
+#     p = t2p(t, n-2)
+#     # p = stats.t.sf(t, n-2)
+#     return p
 
 
 def _d2p_2sample_1d(d, n, Q, fwhm):
@@ -96,6 +114,8 @@ def _d2p_2sample_1d(d, n, Q, fwhm):
     return p
 
 
+@_nd_vectorize
+@_assert_design
 def d2p(d, n, dim=0, Q=None, fwhm=None, design='1sample'):
     if dim==0 and design=='1sample':
         return _d2p_1sample_0d(d, n)
@@ -138,7 +158,8 @@ def _p2d_2sample_1d(p, n, Q, fwhm):
     d  = t2d(t, n, design='2sample')
     return d
 
-
+@_nd_vectorize
+@_assert_design
 def p2d(p, n, dim=0, Q=None, fwhm=None, design='1sample'):
     if dim==0 and design=='1sample':
         return _p2d_1sample_0d(p, n)
@@ -154,19 +175,18 @@ def p2d(p, n, dim=0, Q=None, fwhm=None, design='1sample'):
 # ---- baseline conversions ----------
 # calculate critical d-values for a given scenario based on an assumed baseline scenario
 
-def d_critical(n, dim=0, design='1sample', Q=None, fwhm=None):
-    from .. baseline import BaselineScenario, CriticalValues
-    pc  = BaselineScenario().pc  # critical p-values for the baseline scenario
-    
-    # t0  = p2t(pc, n-2, dim=0)  # two-sample
-    # v1  = n-1 if design=='1sample' else n-2
-    # pc1 = t2p(t0, v1, dim=dim, Q=Q, fwhm=fwhm)
-    # print(pc)
-    # print(pc1)
-    # print()
-    
+
+# @_assert_design
+def d_critical(n, dim=0, design='1sample', Q=None, fwhm=None, baseline=None):
+    _assert_design(design)
+    if baseline is None:
+        from .. baseline import BaselineScenario, CriticalValues
+        pc  = BaselineScenario().pc  # critical p-values for the baseline scenario
+    else:
+        assert isinstance(baseline, BaselineScenario)
     d  = p2d(pc, n, dim=dim, design=design, Q=Q, fwhm=fwhm)
     return CriticalValues( d, pc )
+
 
 
     

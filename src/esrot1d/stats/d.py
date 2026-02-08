@@ -14,48 +14,31 @@ for intended use.
 
 
 import numpy as np
+from .. dec import _assert_design, _check_n_2sample, _nd_vectorize
 
 
 def _isint(x): # check whether input argument is an integer
     return isinstance(x, (int, np.integer))
 
-# ----- decorators ----------
-
-class _assert_design(object):
-    def __init__(self, f):
-        self.f = f
-
-    def __call__(self, x, n, design='1sample'):
-        if design not in ['1sample', '2sample']:
-            raise ValueError( f'Unknown design: "{design}". Only "1sample" and "2sample" supported.' )
-        return self.f(x, n, design)
-
-
-class _check_n_2sample(object):
-    def __init__(self, f):
-        self.f = f
-
-    def __call__(self, d, n):
-        if n%2 !=0:
-            raise ValueError( f'Unsupported sample size: n = {n}. If just one sample size value is provided for a 2-sample design it must represent the total sample size and thus be divisible by 2.')
-        return self.f(d, n)
-        
 
 
 # ----- private functions ----------
 
+@_nd_vectorize
 def _d2t_1sample(d, n):
     return d / (1/n)**0.5
 
+@_nd_vectorize
 @_check_n_2sample
 def _d2t_2sample(d, n):
     n0,n1 = (n/2, n/2) if _isint(n) else n 
     return d / (1/n0 + 1/n1)**0.5
 
-
+@_nd_vectorize
 def _t2d_1sample(t, n):
     return t * (1/n)**0.5
 
+@_nd_vectorize
 @_check_n_2sample
 def _t2d_2sample(t, n):
     n0,n1 = (n/2, n/2) if _isint(n) else n 

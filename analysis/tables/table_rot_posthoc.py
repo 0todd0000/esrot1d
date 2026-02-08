@@ -24,12 +24,15 @@ fwhm = 73.3
 
 
 # calculate probabilities for all effect sizes:
-p = [e1d.stats.d2p_1sample_0d(x, n)  for x in interps.values()]
+# p = [e1d.stats.d2p_1sample_0d(x, n)  for x in interps.values()]
+p = [e1d.stats.d2p(x, n, dim=0, design='1sample')  for x in interps.values()]
 
 
 
 # use fwhm=21.9% to find the functional dmax values whose probabilities match these p0 values
-d    = [e1d.stats.p2d_twosample_1d(pp, n, Q, fwhm)  for pp in p]
+# d    = [e1d.stats.p2d_twosample_1d(pp, n, Q, fwhm)  for pp in p]
+d    = [e1d.stats.p2d(pp, n, dim=1, Q=Q, fwhm=fwhm, design='2sample')  for pp in p]
+
 
 print("Label       Cohen's d    Functional d    p-value   ")
 print("-----------------------------------------------")
