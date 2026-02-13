@@ -53,4 +53,24 @@ class _nd_vectorize(object):
         return x
 
 
+class _fig2pdf(object):
+    def __init__(self, f):
+        self.f = f
 
+    def __call__(self):
+        import os,sys
+        import matplotlib.pyplot as plt
+        pdf = False
+        if len(sys.argv) > 1:
+            pdf = sys.argv[1] == 'pdf'
+        self.f()
+        if pdf:
+            fpath_script = sys.argv[0]
+            dirPDF   = os.path.join( os.path.dirname( fpath_script ), 'pdf')
+            if not os.path.exists(dirPDF):
+                os.mkdir( dirPDF )
+            fname    = os.path.split( fpath_script )[-1]
+            fpathPDF = os.path.join( dirPDF, os.path.splitext( fname )[0] + '.pdf' )
+            plt.savefig( fpathPDF )
+        else:
+            plt.show()
