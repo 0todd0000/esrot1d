@@ -22,7 +22,6 @@ def create_figure():
 
     # set parameters:
     np.random.seed(0)
-    niter  = 100
     Q      = 101
     fwhm   = 20
     fwhms  = [5, 20, 50]
@@ -37,7 +36,7 @@ def create_figure():
 
 
     # load sim results:
-    fpath     = os.path.join( os.path.dirname(__file__), 'results_sim.h5' )
+    fpath     = os.path.join( e1d.dirREPO, 'analysis', 'sim', 'results_sim.h5')
     d         = e1d.io.load_h5( fpath )
     sf10      = d['sf10']
     sf11w     = d['sf11w']

@@ -1,10 +1,8 @@
 
 import numpy as np
-from scipy import stats
 from matplotlib import pyplot as plt
 import rft1d
 import esrot1d as e1d
-d2p = e1d.stats.d2p_2sample_1d
 
 
 
@@ -17,17 +15,16 @@ fwhm   = 20
 
 # calculate theoretical probabilities for effect sizes:
 n      = [5, 10, 20]
-# n      = [6, 10, 20]
 n      = [10, 20, 40]
 u0     = np.linspace(0, 2, 51)
-sf0    = np.array([[d2p(uu,nn,Q,fwhm) for uu in u0]  for nn in n])
+sf0    = np.array([[e1d.stats.d2p(uu,nn, dim=1, design='2sample', Q=Q, fwhm=fwhm) for uu in u0]  for nn in n])
 
 
 
 # simulate:
-np.random.seed(0)
+np.random.seed(4)
 u1     = np.arange(0, 2.1, 0.25)
-niter  = 10000
+niter  = 1000
 sf1    = []
 for nn in n:
     d  = []

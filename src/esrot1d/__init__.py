@@ -18,3 +18,8 @@ def set_plot_style():
     plt.rcParams['ytick.labelsize'] = 'small'
     plt.rcParams['font.sans-serif'] = 'Arial'
     plt.rcParams['font.family']     = 'Arial'
+
+
+
+import pathlib
+dirREPO = pathlib.Path( __file__ ).parent.parent.parent

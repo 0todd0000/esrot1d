@@ -36,7 +36,8 @@ for n in ns1:
         d.append( e1d.stats.d_1sample(y) )
     sf10.append( get_numerical_sf(d, u) )
 sf10    = np.array( sf10 )
-sf10_an = np.array([[e1d.stats.d2p_1sample_0d(uu,nn) for uu in u0]  for nn in ns1])
+# sf10_an = np.array([[e1d.stats.d2p_1sample_0d(uu,nn) for uu in u0]  for nn in ns1])
+sf10_an = np.array([[e1d.stats.d2p(uu,nn, dim=0, design='1sample') for uu in u0]  for nn in ns1])
 
 
 
@@ -49,7 +50,7 @@ for n in ns1:
         d.append( e1d.stats.d_1sample(y).max() )
     sf11n.append( get_numerical_sf(d, u) )
 sf11n    = np.array( sf11n )
-sf11n_an = np.array([[e1d.stats.d2p_1sample_1d(uu,nn,Q,fwhm) for uu in u0]  for nn in ns1])
+sf11n_an = np.array([[e1d.stats.d2p(uu,nn, dim=1, design='1sample', Q=Q,fwhm=fwhm) for uu in u0]  for nn in ns1])
 
 
 # one-sample 1d (constant n)
@@ -61,7 +62,7 @@ for w in fwhms:
         d.append( e1d.stats.d_1sample(y).max() )
     sf11w.append( get_numerical_sf(d, u) )
 sf11w    = np.array( sf11w )
-sf11w_an = np.array([[e1d.stats.d2p_1sample_1d(uu,N1,Q,w) for uu in u0]  for w in fwhms])
+sf11w_an = np.array([[e1d.stats.d2p(uu,N1,dim=1, design='1sample', Q=Q, fwhm=w) for uu in u0]  for w in fwhms])
 
 
 
@@ -76,7 +77,7 @@ for n in ns2:
         d.append( e1d.stats.d_2sample(y0, y1) )
     sf20.append( get_numerical_sf(d, u) )
 sf20    = np.array( sf20 )
-sf20_an = np.array([[e1d.stats.d2p_2sample_0d(uu,nn*2) for uu in u0]  for nn in ns2])
+sf20_an = np.array([[e1d.stats.d2p(uu,nn*2, dim=0, design='2sample') for uu in u0]  for nn in ns2])
 
 
 # two-sample 1d  (constant FWHM)
@@ -89,7 +90,7 @@ for n in ns2:
         d.append( e1d.stats.d_2sample(y0, y1).max() )
     sf21n.append( get_numerical_sf(d, u) )
 sf21n    = np.array( sf21n )
-sf21n_an = np.array([[e1d.stats.d2p_2sample_1d(uu,nn*2,Q,fwhm) for uu in u0]  for nn in ns2])
+sf21n_an = np.array([[e1d.stats.d2p(uu,nn*2, dim=1, design='2sample', Q=Q, fwhm=fwhm) for uu in u0]  for nn in ns2])
 
 
 # two-sample 1d  (constant n)
@@ -102,7 +103,7 @@ for w in fwhms:
         d.append( e1d.stats.d_2sample(y0, y1).max() )
     sf21w.append( get_numerical_sf(d, u) )
 sf21w    = np.array( sf21w )
-sf21w_an = np.array([[e1d.stats.d2p_2sample_1d(uu,N2*2,Q,w) for uu in u0]  for w in fwhms])
+sf21w_an = np.array([[e1d.stats.d2p(uu,N2*2, dim=1, design='2sample', Q=Q, fwhm=w) for uu in u0]  for w in fwhms])
 
 
 
