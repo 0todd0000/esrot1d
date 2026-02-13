@@ -1,6 +1,6 @@
 
 '''
-Estimate smoothness metrics:
+Estimate smoothness metrics for the attached OA dataset:
 - Lipschitz-Killing curvature (LKC)
 - Full-width at half-maximum (FWHM)
 '''
