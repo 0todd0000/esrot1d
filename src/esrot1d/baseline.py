@@ -36,6 +36,7 @@ class BaselineScenario(object):
         self.n      = 20
         self.v      = self.n - 2  # degrees of freedom
         self.design = 'two-sample'
+        self.cv     = CriticalValues( self.dc, self.pc )
         
     def __repr__(self):
         s  =  'BaselineScenario:\n'
@@ -45,10 +46,10 @@ class BaselineScenario(object):
         s += f'    dc     = {self.dc}\n'
         s += f'    pc     = {self.pc}\n'
         return s
-        
+    
     @property
     def critical_values(self):
-        return CriticalValues( self.dc, self.pc )
+        return self.cv
         
     
 
