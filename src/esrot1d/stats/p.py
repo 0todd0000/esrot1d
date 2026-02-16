@@ -184,6 +184,7 @@ def d_critical(n, dim=0, design='1sample', Q=None, fwhm=None, baseline=None):
         pc  = BaselineScenario().pc  # critical p-values for the baseline scenario
     else:
         assert isinstance(baseline, BaselineScenario)
+        pc  = baseline.pc
     d  = p2d(pc, n, dim=dim, design=design, Q=Q, fwhm=fwhm)
     return CriticalValues( d, pc )
 
@@ -196,6 +197,12 @@ if __name__ == '__main__':
     #
     # print( t2p(1.5, 8, dim=0) )
     # print( t2p(2.9, 8, dim=1, Q=101, fwhm=50) )
+    
+    from .. baseline import BaselineScenario, CriticalValues
+    baseline = BaselineScenario()
+    
+    print( baseline )
+    
     
 
     # print( _d2p_1sample_0d(0.5, 10) )
@@ -229,8 +236,8 @@ if __name__ == '__main__':
     # print( d_critical( 20, dim=1, design='2sample', Q=101, fwhm=25 )  )
     
     
-    print( d_critical( 10, dim=1, design='1sample', Q=101, fwhm=25 )  )
-    print( d_critical( 50, dim=1, design='1sample', Q=101, fwhm=25 )  )
+    # print( d_critical( 10, dim=1, design='1sample', Q=101, fwhm=25 )  )
+    # print( d_critical( 50, dim=1, design='1sample', Q=101, fwhm=25 )  )
     
     
     
