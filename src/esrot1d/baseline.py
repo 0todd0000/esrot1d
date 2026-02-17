@@ -1,4 +1,9 @@
 
+'''
+Classes for collections of critical d-values and their interpretation labels.
+'''
+
+
 import numpy as np
 
 
@@ -98,20 +103,11 @@ class BaselineScenario(CriticalValues):
 
 
 if __name__ == '__main__':
-
     d      = [0.1, 0.5, 1]
     p      = [0.4, 0.1, 0.001]
     labels = ['A', 'BB', 'CCC']
-    # labels = None
-    # labels = 2
-    # labels = ["1", "2"]
     cv     = CriticalValues(d, p, labels)
     print( cv )
-
     print( cv['A'], cv['CCC'] )
-    #
-    # bs = BaselineScenario()
-    # print( bs )
-    # print( bs.critical_values )
 
 

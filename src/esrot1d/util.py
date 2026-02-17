@@ -1,4 +1,7 @@
 
+'''
+Utility functions for plotting, sorting and printing
+'''
 
 import numpy as np
 
@@ -23,6 +26,7 @@ def custom_legend(ax, colors=None, labels=None, linestyles=None, linewidths=None
 
 def float2str(x):
     return r'$\infty$' if np.isinf(x) else f'{x:.1f}'
+
 
 def unique_sorted(x):
     return np.sort( np.unique(x) )

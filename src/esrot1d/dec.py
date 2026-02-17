@@ -1,10 +1,10 @@
 
 '''
-Decorator class definitions
+Decorator class definitions to avoid repetitive code elsewhere
 '''
 
-import numpy as np
 
+import numpy as np
 
 
 
@@ -27,7 +27,8 @@ class _check_n_2sample(object):
         if n%2 !=0:
             raise ValueError( f'Unsupported sample size: n = {n}. If just one sample size value is provided for a 2-sample design it must represent the total sample size and thus be divisible by 2.')
         return self.f(d, n)
-        
+
+
 
 class _nd_vectorize(object):
     def __init__(self, f):
@@ -51,6 +52,7 @@ class _nd_vectorize(object):
         else:
             x = float( self.f(a, b, *args, **kwargs) )
         return x
+
 
 
 class _fig2pdf(object):

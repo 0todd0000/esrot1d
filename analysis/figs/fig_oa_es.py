@@ -10,7 +10,7 @@ from esrot1d.dec import _fig2pdf
 def create_figure():
 
 
-    import os,pathlib
+    import os
     import numpy as np
     from matplotlib import pyplot as plt
     import rft1d
@@ -24,8 +24,7 @@ def create_figure():
 
 
     # load imported data:
-    dirREPO = pathlib.Path( __file__ ).parent.parent.parent
-    dir0    = os.path.join(dirREPO, 'analysis', 'Bertaux2022', 'data')
+    dir0    = os.path.join(e1d.dirREPO, 'analysis', 'Bertaux2022', 'data')
     fpathH5 = os.path.join(dir0, 'means.h5')
     d       = dict()
     with h5py.File(fpathH5, 'r') as f:

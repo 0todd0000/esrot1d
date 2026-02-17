@@ -1,4 +1,8 @@
 
+'''
+Generate PDF figures for all fig*.py scripts in this folder
+'''
+
 import os
 
 fnames = [
