@@ -10,7 +10,7 @@ from esrot1d.dec import _fig2pdf
 def create_figure():
 
 
-    import os,pathlib
+    import os
     import numpy as np
     from matplotlib import pyplot as plt
     import rft1d
@@ -19,37 +19,12 @@ def create_figure():
     e1d.set_plot_style()
 
 
-
-    interpretations  = [['Very small',0.01], ['Small',0.2], ['Medium',0.5], ['Large',0.8], ['Very large',1.2], ['Huge',2.0]]
-    interpretations1 = [['Very small',0.58], ['Small',0.76], ['Medium',1.03], ['Large',1.32], ['Very large',1.73], ['Huge',2.62]]
-
-
-
-
-    def plot_interpretations(ax, type='0d', ylim=(-1,1)):
-        ymin,ymax = ylim
-        interps   = interpretations if type=='0d' else interpretations1
-        labels    = [i[0] for i in interps]
-        values    = [i[1] for i in interps]
-        values   += [100]
-        n         = len(values)
-        colors    = plt.cm.hot( np.linspace(0, 1, n+2) )[2:]
-        # oy        = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-        for i,(s,c) in enumerate( zip(labels,colors) ):
-            if values[i] < ymax:
-                ax.axhline(values[i], color=c, ls='-', zorder=0)
-                bbox = dict(facecolor='w', edgecolor="0.5", pad=2, alpha=0.6)
-                ax.text( 80, values[i]+0.01, s, color=c, bbox=bbox, size=12 )
-            # if values[i] < -ymin:
-            #     ax.axhline(-values[i], color=c, ls='-', zorder=0)
-        ax.set_ylim( -0.3, ymax )
-
-
+    cv0  = e1d.BaselineScenario()
+    cv1  = e1d.stats.d_critical(20, dim=1, design='2sample', Q=101, fwhm=21.9)
 
 
     # load imported data:
-    dirREPO = pathlib.Path( __file__ ).parent.parent.parent
-    dir0    = os.path.join(dirREPO, 'analysis', 'Bertaux2022', 'data')
+    dir0    = os.path.join(e1d.dirREPO, 'analysis', 'Bertaux2022', 'data')
     fpathH5 = os.path.join(dir0, 'means.h5')
     d       = dict()
     with h5py.File(fpathH5, 'r') as f:
@@ -74,27 +49,28 @@ def create_figure():
 
 
 
-    # PLOT:
+    # plot:
     plt.close('all')
-    fig,axs = plt.subplots(1, 2, figsize=(10,4))
+    fig,axs = plt.subplots(1, 2, figsize=(10,4), tight_layout=True)
 
     axs[0].plot( d, color='k' )
     axs[1].plot( d, color='k' )
     [ax.axhline(0, color='k', ls=':')  for ax in axs]
 
-    ylim = -0.3, 0.89
-    plot_interpretations(axs[0], type='0d', ylim=ylim)
-    plot_interpretations(axs[1], type='1d', ylim=ylim)
-    # ax.legend( fontsize=12, loc='upper left' )
+    
+    ylim   = -0.3, 0.89
+    colors = plt.cm.hot( np.linspace(0, 1, 8) )[1:-1]
+    cv0.plot_hlines(axs[0], ymax=ylim[1], colors=colors, textx=80)
+    cv1.plot_hlines(axs[1], ymax=ylim[1], colors=colors, textx=80)
+
     axs[1].set_yticklabels([])
-    [ax.set_xlim(0, 100)  for ax in axs]
+    plt.setp(axs, xlim=(0,100), ylim=ylim)
     [ax.set_xlabel('Time (%)', size=12)  for ax in axs]
     axs[0].set_ylabel("Effect size (Cohen's d-value)", size=12)
     # ax.grid(None)
     labels = 'Sawilowsky (2009) rules of thumb', 'Proposed functional rules of thumb'
     [ax.text(0.02, 0.95, f'({chr(97+i)}) {s}', transform=ax.transAxes, size=12)   for i,(ax,s) in enumerate(zip(axs,labels))]
 
-    plt.tight_layout()
 
 
 

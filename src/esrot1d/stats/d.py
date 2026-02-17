@@ -1,14 +1,11 @@
 
 '''
-This module contains the following functions for Cohen's d-value calculations:
+Calculate d-values for 1- and 2-sample designs and convert between t- and d-values
 
 * d_1sample(y)      # d-value for 1-sample case
 * d_2sample(y0,y1)  # d-value for 2-sample case
 * d2t(d,n)          # convert d- to t-values
 * t2d(t,n)          # convert t- to d-values
-
-Refer to the "example_usage.ipynb" notebook in this repository's "doc" folder
-for intended use. 
 '''
 
 

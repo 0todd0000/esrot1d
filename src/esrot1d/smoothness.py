@@ -1,5 +1,9 @@
+
 '''
-Calculate smoothness metrics:
+Smoothness metrics calculation and conversion
+
+Basic estimations of the following two metrics are supported:
+
 - Lipschitz-Killing curvature (LKC)
 - Full-width at half-maximum (FWHM)
 
@@ -34,7 +38,6 @@ def resels2lkc(resels, d=1):
     x = resels / ( _4log2 **(-d/2) )
     x = np.inf if (x > 1e9) else float(x)
     return x
-    
 
 def estimate_fwhm(e):
     lkc  = estimate_lkc( e )

@@ -1,4 +1,9 @@
 
+'''
+In/out functions for saving and loading data in HDF5 format
+'''
+
+
 import numpy as np
 import h5py
 

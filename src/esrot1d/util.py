@@ -1,4 +1,7 @@
 
+'''
+Utility functions for plotting, sorting and printing
+'''
 
 import numpy as np
 
@@ -24,15 +27,16 @@ def custom_legend(ax, colors=None, labels=None, linestyles=None, linewidths=None
 def float2str(x):
     return r'$\infty$' if np.isinf(x) else f'{x:.1f}'
 
+
 def unique_sorted(x):
     return np.sort( np.unique(x) )
 
 
 def plot_critical_values(ax, cv, ylim=(-1,1), colors=None):
     if colors is None:
+        import matplotlib.pyplot as plt
         colors = plt.cm.jet( np.linspace(0, 1, len(cv)) )
     ymin,ymax  = ylim
-    ax.axhline(0, color='0.7', ls=':', zorder=0)
     for c,(key,value) in zip(colors, cv.items()):
         if value < ymax:
             ax.axhline(value, color=c, ls='-', zorder=0)

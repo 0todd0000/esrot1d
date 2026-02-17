@@ -5,6 +5,7 @@ Calculate effect size and its simple and functional interpretations
 
 from esrot1d.dec import _fig2pdf
 
+
 @_fig2pdf
 def create_figure():
     
@@ -16,16 +17,12 @@ def create_figure():
     
     
     # calculate effect-size p-values for one-sample case:
-    interps  = [['Very small',0.01], ['Small',0.2], ['Medium',0.5], ['Large',0.8], ['Very large',1.2], ['Huge',2.0]]
-    labels,d = zip(*interps)
-    # one-sample n-p relation:
+    cv       = e1d.BaselineScenario()
     n1       = np.arange(2,80)
-    p1       = np.array([[e1d.stats.d2p(dd, nn, dim=0, design='1sample') for dd in d]  for nn in n1])
-    # two-sample n-p relation:
     n2       = np.arange(4,80,2)
-    p2       = np.array([[e1d.stats.d2p(dd, nn, dim=0, design='2sample') for dd in d]  for nn in n2])
-
-
+    p1       = e1d.stats.d2p(cv.d, n1, dim=0, design='1sample')
+    p2       = e1d.stats.d2p(cv.d, n2, dim=0, design='2sample')
+    
 
 
     # plot:
@@ -36,7 +33,7 @@ def create_figure():
     # one-sample case:
     ax     = axs[0]
     loc    = [(60,-0.2,0), (55,-1.1,-5), (50,-3.7,-30), (27,-4.1,-45), (15,-4.5,-61), (7.8,-3.9,-70)]
-    for pp,cc,ss,lc in zip(p1.T,colors,labels,loc):
+    for pp,cc,ss,lc in zip(p1.T,colors,cv.labels,loc):
         ax.plot( n1, np.log10(pp), color=cc, lw=2, zorder=1 )
         x,y,a = lc
         ax.text(x, y, ss, rotation=a, color=cc)
@@ -55,7 +52,7 @@ def create_figure():
     # two-sample case:
     ax     = axs[1]
     loc    = [(60,-0.2,0), (65,-0.65,-3), (65,-1.7,-9), (60,-2.9,-19), (48,-4.6,-36), (22,-4.5,-55)]
-    for pp,cc,ss,lc in zip(p2.T,colors,labels,loc):
+    for pp,cc,ss,lc in zip(p2.T,colors,cv.labels,loc):
         ax.plot( n2, np.log10(pp), color=cc, lw=2, zorder=1 )
         x,y,a = lc
         ax.text(x, y, ss, rotation=a, color=cc)
@@ -77,6 +74,7 @@ def create_figure():
     panel_labels = '(a) One-sample', '(b) Two-sample'
     [ax.text(0.02, 1.02, s, size=12, transform=ax.transAxes)  for ax,s in zip(axs,panel_labels)]
     [ax.grid(None) for ax in axs]
+
 
 
 
