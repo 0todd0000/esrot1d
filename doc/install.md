@@ -8,7 +8,7 @@
     pip install -r requirements.txt
     ```
 
-- Clone the repository or select the green "Code" button from the [repository home page](https://github.com/0todd0000/esrot1d)
+- Clone the repository or select the green "Code" button from the [repository home page](https://github.com/0todd0000/esrot1d) to manually download the code
 
 - Add the `./src` folder to the Python path
 
