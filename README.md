@@ -24,4 +24,5 @@ Pataky TC, Pini A, Preatoni E, Schelin L (2026) Effect size rules of thumb for o
 - [Repository overview](doc/overview.md)
 - [**esrot1d** package overview](doc/esrot1d.md)
 - [Reproduce all paper figures](doc/all_figures.ipynb)
+- [Sample size and smoothness effects](doc/n_fwhm.ipynb)
 
