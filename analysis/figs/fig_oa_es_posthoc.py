@@ -20,29 +20,6 @@ def create_figure():
 
 
 
-    def plot_interpretations(ax, dc, ymax=None):
-        ymax      = 1e6 if (ymax is None) else ymax
-        # interps   = interpretations if type=='0d' else interpretations1
-        interps   = dc.tolist()
-        labels    = [i[0] for i in interps]
-        values    = [i[1] for i in interps]
-        values   += [100]
-        n         = len(values)
-        colors    = plt.cm.hot( np.linspace(0, 1, n+5) )[2:-3]
-        # oy        = [0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
-        for i,(s,c) in enumerate( zip(labels,colors) ):
-            if values[i] < ymax:
-                ax.axhline(values[i], color=c, ls='-', zorder=0)
-                bbox = dict(facecolor='w', edgecolor="0.5", pad=2, alpha=0.6)
-                ax.text( 80, values[i]+0.01, s, color=c, bbox=bbox, size=12 )
-            # if values[i] < -ymin:
-            #     ax.axhline(-values[i], color=c, ls='-', zorder=0)
-        ax.set_ylim( -0.3, ymax )
-
-
-
-
-
     # load imported data:
     dirREPO = pathlib.Path( __file__ ).parent.parent.parent
     dir0    = os.path.join(dirREPO, 'analysis', 'Bertaux2022', 'data')
@@ -79,16 +56,16 @@ def create_figure():
     plt.close('all')
     fig,axs = plt.subplots(3, 2, figsize=(8,8), tight_layout=True)
 
-
+    
+    colors  = plt.cm.hot( np.linspace(0, 1, 11) )[1:-4]
+    
     for i,(ax,n,design,fwhm) in enumerate( zip(axs.ravel(), ns, designs, fwhms) ):
-        dc = e1d.stats.d_critical(n, dim=1, design=design, Q=101, fwhm=fwhm)  # proposed baseline scenario
+        cv = e1d.stats.d_critical(n, dim=1, design=design, Q=101, fwhm=fwhm)  # proposed baseline scenario
         ax.plot( d, color='k' )
         ax.axhline(0, color='k', ls=':')
     
-
-    
-        plot_interpretations(ax, dc, ymax=0.8)
-        # ax.legend( fontsize=12, loc='upper left' )
+        cv.plot_hlines(ax, ymax=0.8, colors=colors, textx=80)
+        
         ax.set_xlim(0, 100)
         ax.set_ylim(-0.3, 0.93)
     
@@ -99,8 +76,6 @@ def create_figure():
 
     axs[0,0].text(0.03, 0.78, 'PROPOSED BENCHMARK SCENARIO', transform=axs[0,0].transAxes, fontweight='bold') 
     axs[2,1].text(0.03, 0.83, 'ACTUAL SCENARIO', transform=axs[2,1].transAxes, fontweight='bold') 
-
-    # [ax.text(0.1, 0.83, label, transform=ax.transAxes, fontweight='bold')  for ax,label in zip([axs[0,0], axs[2,1]], labels)]
 
     [ax.set_xlabel('Time (%)', size=12) for ax in axs[2]]
     [ax.set_ylabel('Effect size', size=12)  for ax in axs[:,0]]
