@@ -179,14 +179,15 @@ def p2d(p, n, dim=0, Q=None, fwhm=None, design='1sample'):
 # @_assert_design
 def d_critical(n, dim=0, design='1sample', Q=None, fwhm=None, baseline=None):
     _assert_design(design)
+    from .. baseline import BaselineScenario, CriticalValues
     if baseline is None:
-        from .. baseline import BaselineScenario, CriticalValues
-        pc  = BaselineScenario().pc  # critical p-values for the baseline scenario
+        baseline = BaselineScenario()
+        p  = baseline.p  # critical p-values for the baseline scenario
     else:
         assert isinstance(baseline, BaselineScenario)
-        pc  = baseline.pc
-    d  = p2d(pc, n, dim=dim, design=design, Q=Q, fwhm=fwhm)
-    return CriticalValues( d, pc )
+        p  = baseline.p
+    d  = p2d(p, n, dim=dim, design=design, Q=Q, fwhm=fwhm)
+    return CriticalValues( d, p, labels=baseline.labels )
 
 
 
@@ -197,11 +198,13 @@ if __name__ == '__main__':
     #
     # print( t2p(1.5, 8, dim=0) )
     # print( t2p(2.9, 8, dim=1, Q=101, fwhm=50) )
+    pass
+    # from .. baseline import BaselineScenario, CriticalValues
+    # baseline = BaselineScenario()
+    #
+    # print( baseline )
     
-    from .. baseline import BaselineScenario, CriticalValues
-    baseline = BaselineScenario()
     
-    print( baseline )
     
     
 
