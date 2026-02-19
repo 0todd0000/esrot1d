@@ -1,6 +1,6 @@
 # esrot1d
 
-### Effect size rules of thumb for continuous one-dimensional functional data
+### Effect size rules of thumb for one-dimensional functional data
 
 <br>
 <br>
@@ -8,6 +8,13 @@
 This is a project repository associated with the following paper:
 
 Pataky TC, Pini A, Preatoni E, Schelin L (2026) Effect size rules of thumb for one-dimensional functional data with an application to gait analysis. *Statistics in Medicine*, in review.
+
+<br>
+<br>
+
+![example](doc/example.png)
+
+
 
 <br>
 <br>
