@@ -68,7 +68,8 @@ def create_figure():
         ax.set_xlim(0, 100)
         ax.set_ylim(-0.3, 0.93)
     
-        ax.text(0.02, 0.93, f'({chr(97+i)})  n={n}, {design}, fwhm={fwhm}%', transform=ax.transAxes)
+        nstr = 'N' if design=='2sample' else 'n'
+        ax.text(0.02, 0.93, f'({chr(97+i)})  {nstr}={n}, {design}, fwhm={fwhm}%', transform=ax.transAxes)
 
 
 
